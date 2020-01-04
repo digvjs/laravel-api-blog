@@ -14,7 +14,21 @@ class BlogsController extends Controller
      */
     public function index()
     {
-        $blogs = Blog::all();
+        $blogs = Blog::with('user')->get();
+
+        return response()->json($blogs);
+    }
+
+    /**
+     * Get blog details by Id
+     *
+     * @param int $blogId
+     * @return \Illuminate\Http\Response
+     */
+    public function show($blogId)
+    {
+        $blogs = Blog::where('id', $blogId)
+            ->with('user')->first();
 
         return response()->json($blogs);
     }
@@ -23,13 +37,14 @@ class BlogsController extends Controller
     /**
      * Get a listing of the blogs based on category ID.
      *
+     * @param int $categoryId
      * @return \Illuminate\Http\Response
      */
     public function getByCategoryId($categoryId)
     {
         $blogs = Blog::whereHas('categories', function ($q) use ($categoryId) {
             $q->where('categories.id', '=', $categoryId);
-        })->get();
+        })->with('user')->get();
 
         return response()->json($blogs);
     }

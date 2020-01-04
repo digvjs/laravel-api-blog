@@ -23,5 +23,8 @@ Route::get('categories', 'CategoriesController@index');
 /** List all Blogs **/
 Route::get('blogs', 'BlogsController@index');
 
+/** Get blog details by ID **/
+Route::get('blogs/{id}', 'BlogsController@show');
+
 /** List Blogs by category **/
 Route::get('blogs/category/{id}', 'BlogsController@getByCategoryId');
